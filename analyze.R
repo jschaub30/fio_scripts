@@ -1,0 +1,30 @@
+#!/usr/bin/Rscript
+
+require(ggplot2)
+require(dplyr)
+require(reshape2)
+df <- read.csv('output.csv')
+df1 <- tbl_df(df)
+rm(df)
+df2 <- melt(df1, id=c("test", "queue_depth"))
+df3 <- filter(df2, value>0 & (variable=="read_bw_k" | variable=="write_bw_k"))
+df4 <- mutate(df3, direction=ifelse(variable=="read_bw_k", "read", "write"))
+
+svg("bandwidth.svg", width=8, height=6)
+p <- ggplot(df4, aes(x=queue_depth, y=value/1000, color=test, linetype=direction))
+title_str <- "Title here"
+p <- p + geom_line() + ggtitle(title_str)
+p <- p + xlab("Queue depth") + ylab("Bandwidth [ MB/s ]")
+p <- p + scale_x_continuous(breaks=unique(df4$queue_depth))
+print(p)
+tmp <- dev.off()
+
+df3 <- filter(df2, value>0 & (variable=="read_iops" | variable=="write_iops"))
+df4 <- mutate(df3, direction=ifelse(variable=="read_iops", "read", "write"))
+svg("iops.svg", width=8, height=6)
+p <- ggplot(df4, aes(x=queue_depth, y=value, color=test, linetype=direction))
+p <- p + geom_line() + ggtitle(title_str)
+p <- p + xlab("Queue depth") + ylab("IOPS")
+p <- p + scale_x_continuous(breaks=unique(df4$queue_depth))
+print(p)
+tmp <- dev.off()
