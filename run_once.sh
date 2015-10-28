@@ -25,13 +25,19 @@ echo $CONFIG >> $OUTPUT.dstat
 echo $CONFIG >> $OUTPUT.iostat
 echo $CONFIG >> $OUTPUT.vmstat
 
-DELAY=3
+DELAY=2
 dstat -drcgynp --aio --fs -t $DELAY        >> $OUTPUT.dstat    & 
 PID[1]=$!
 iostat -txm $DELAY                         >> $OUTPUT.iostat   &
 PID[2]=$!
 vmstat -w $DELAY                           >> $OUTPUT.vmstat   &
 PID[3]=$!
+
+kill_procs() {
+    echo "Stopping monitors"
+    kill ${PID[*]}
+}
+trap 'kill_procs' SIGTERM SIGINT # Kill process monitors if killed early
 
 sleep 5 
 echo `date` ": RUN STARTED" >> $OUTPUT.fio
@@ -41,5 +47,5 @@ echo `date` ": RUN STARTED" >> $OUTPUT.fio
 echo Running fio
 $FIO $JOB_FILE >> $OUTPUT.fio 2>&1
 sleep 5
-kill ${PID[*]}
+kill_procs
 
