@@ -14,8 +14,11 @@ cd $CWD
 CONFIG_FILE=config.job
 SIZE=4G
 
+# Setup the output run directory
+rm -f last
 RUNDIR=$(date +"%Y%m%d-%H%M%S")
 mkdir -p $RUNDIR
+ln -sf $RUNDIR last
 cp analyze.R $RUNDIR/.
 cp tidy.sh $RUNDIR/.
 cp $SNAPSHOT $RUNDIR/.
@@ -40,4 +43,15 @@ mv FIO_OUT* $RUNDIR/.
 cd $RUNDIR
 ./tidy.sh
 ./analyze.R
-
+if [ $? -eq 0 ]
+then
+  cat template.html | perl -pe "s/TAG_HOSTNAME/$HOST.html/" > $RUNDIR/index.html
+  IP=$(hostname -I | cut -d' ' -f1)
+  echo
+  echo "#### PID MONITOR ####: All data saved to $RUNDIR"
+  echo "#### PID MONITOR ####: View the html output using the following command:"
+  echo "#### PID MONITOR ####: $ python -m SimpleHTTPServer 12345"
+  echo "#### PID MONITOR ####: Then navigate to http://${IP}:12345"
+else
+  echo Problem generating image files
+fi

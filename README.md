@@ -6,7 +6,9 @@ SETUP
 
 To collect the raw data
 -----------------------
+```
 apt-get install fio
+```
 
 To generate the output plots
 ----------------------------
@@ -31,7 +33,8 @@ Edit the "config.job" file.  In particular, change the "filename" field to point
 to the target IO location.
 
 Edit the "run_fio.sh" script and un-comment the tests you wish to run.
-Run the tests:
+
+To run the tests:
 ```
 ./run_fio.sh
 ```
