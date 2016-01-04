@@ -16,7 +16,7 @@ SIZE=4G
 
 # Setup the output run directory
 rm -f last
-RUNDIR=$(date +"%Y%m%d-%H%M%S")
+RUNDIR=rundir/$(date +"%Y%m%d-%H%M%S")
 mkdir -p $RUNDIR
 ln -sf $RUNDIR last
 cp analyze.R $RUNDIR/.
@@ -57,3 +57,4 @@ then
 else
   echo Problem generating image files
 fi
+
