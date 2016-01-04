@@ -14,7 +14,7 @@ export MIXWRITE=$6
 export QD=$7
 JOB_FILE=$8
 
-OUTPUT=BF1
+OUTPUT=FIO_OUT
 
 FIO="fio --minimal"	 #fio's REAL_MAX_JOBS limit is 2048
 

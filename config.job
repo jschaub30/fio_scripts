@@ -18,4 +18,4 @@ gtod_reduce=1
  
  
 [job1]
-filename=/flash/fio
+filename=/data/fio
