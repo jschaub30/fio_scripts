@@ -7,7 +7,8 @@ CWD=$(pwd)
 cd linux_summary
 git pull
 ./linux_summary.sh
-SNAPSHOT=$CWD/linux_summary/$(hostname -s).html
+HOST=$(hostname -s)
+SNAPSHOT=$CWD/linux_summary/${HOST}.html
 mv index.html $SNAPSHOT
 cd $CWD
 
