@@ -25,7 +25,7 @@ cp tidy.sh $RUNDIR/.
 cp $SNAPSHOT $RUNDIR/.
 cp $CONFIG_FILE $RUNDIR/. 
 
-for QD in 1 4 16 64 256
+for QD in 1 4 16 64 #256
 do
   echo ======= QD=$QD =======
   #./run_once.sh OLTP1 4k $SIZE randrw 60 40 $QD $CONFIG_FILE
@@ -44,18 +44,14 @@ mv FIO_OUT* $RUNDIR/.
 cd $RUNDIR
 ./tidy.sh
 ./analyze.R
-if [ $? -eq 0 ]
-then
-  cd $CWD
-  cat template.html | perl -pe "s/TAG_HOSTNAME/$HOST.html/" > $RUNDIR/index.html
-  IP=$(hostname -I | cut -d' ' -f1)
-  echo
-  echo "#### PID MONITOR ####: All data saved to $RUNDIR"
-  echo "#### PID MONITOR ####: View the html output using the following command:"
-  echo "#### PID MONITOR ####: $ cd $RUNDIR"
-  echo "#### PID MONITOR ####: $ python -m SimpleHTTPServer 12345"
-  echo "#### PID MONITOR ####: Then navigate to http://${IP}:12345"
-else
-  echo Problem generating image files
-fi
+[ $? -ne 0 ] && echo ****** Problem generating image files ******
+cd $CWD
+cat template.html | perl -pe "s/TAG_HOSTNAME/$HOST.html/" > $RUNDIR/index.html
+IP=$(hostname -I | cut -d' ' -f1)
+echo
+echo "#### PID MONITOR ####: All data saved to $RUNDIR"
+echo "#### PID MONITOR ####: View the html output using the following command:"
+echo "#### PID MONITOR ####: $ cd $RUNDIR"
+echo "#### PID MONITOR ####: $ python -m SimpleHTTPServer 12345"
+echo "#### PID MONITOR ####: Then navigate to http://${IP}:12345"
 
