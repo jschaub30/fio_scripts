@@ -25,7 +25,7 @@ cp tidy.sh $RUNDIR/.
 cp $SNAPSHOT $RUNDIR/.
 cp $CONFIG_FILE $RUNDIR/. 
 
-for QD in 1 4 16 64 #256
+for QD in 1 4 16 64 256
 do
   echo ======= QD=$QD =======
   #./run_once.sh OLTP1 4k $SIZE randrw 60 40 $QD $CONFIG_FILE
