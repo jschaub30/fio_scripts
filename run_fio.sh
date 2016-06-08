@@ -22,6 +22,7 @@ mkdir -p $RUNDIR
 ln -sf $RUNDIR last
 cp analyze.R $RUNDIR/.
 cp tidy.sh $RUNDIR/.
+cp csv2html.sh $RUNDIR/.
 cp $SNAPSHOT $RUNDIR/.
 cp $CONFIG_FILE $RUNDIR/. 
 
@@ -44,6 +45,8 @@ mv FIO_OUT* $RUNDIR/.
 cd $RUNDIR
 ./tidy.sh
 ./analyze.R
+./csv2html.sh output.csv > output.html
+./csv2html.sh output.G.csv > output.G.html
 [ $? -ne 0 ] && echo ****** Problem generating image files ******
 cd $CWD
 cat template.html | perl -pe "s/TAG_HOSTNAME/$HOST.html/" > $RUNDIR/index.html
