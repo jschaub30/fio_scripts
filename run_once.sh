@@ -4,7 +4,7 @@ usage(){
  echo USAGE ./run_once.sh NAME BLOCK_SIZE FILE_SIZE IO_TYPE MIXREAD MIXWRITE QD JOB_FILE
  exit 1
 }
-[ $# -ne 8 ] && usage
+[ $# -ne 9 ] && usage
 NAME=$1
 export BLOCK_SIZE=$2
 export FILE_SIZE=$3
@@ -12,7 +12,8 @@ export IO_TYPE=$4
 export MIXREAD=$5
 export MIXWRITE=$6
 export QD=$7
-JOB_FILE=$8
+export DATA_PATH=$8
+JOB_FILE=$9
 
 OUTPUT=FIO_OUT
 

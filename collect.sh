@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DATA_PATH=$1
+[ $# -lt 1 ] && DATA_PATH=fio_file
+
 CWD=$(pwd)
 
 trap "wait && exit" SIGINT SIGTERM
@@ -26,23 +29,23 @@ cp analyze.R $RUNDIR/.
 cp tidy.sh $RUNDIR/.
 cp csv2html.sh $RUNDIR/.
 cp $SNAPSHOT $RUNDIR/.
-cp $CONFIG_FILE $RUNDIR/. 
+cp $DATA_PATH $CONFIG_FILE $RUNDIR/. 
 
 for QD in 1 4 16 64 256
 do
   echo ======= QD=$QD =======
-  #./run_once.sh OLTP1 4k $SIZE randrw 60 40 $QD $CONFIG_FILE
-  #./run_once.sh OLTP2 8k $SIZE randrw 90 10 $QD $CONFIG_FILE
+  #./run_once.sh OLTP1 4k $SIZE randrw 60 40 $QD $DATA_PATH $CONFIG_FILE
+  #./run_once.sh OLTP2 8k $SIZE randrw 90 10 $QD $DATA_PATH $CONFIG_FILE
   #random read write mix with cache hits, send the same offest 2 times before generating a random offset
-  #./run_once.sh OLTP3 4k $SIZE randrw:2 70 30 $QD $CONFIG_FILE
-  ./run_once.sh "Random read IOPS" 4k $SIZE randread 100 0 $QD $CONFIG_FILE
-  ./run_once.sh "Random write IOPS" 4k $SIZE randwrite 0 100 $QD $CONFIG_FILE
-  ./run_once.sh "Random r50/w50 IOPS" 4k $SIZE randrw 50 50 $QD $CONFIG_FILE
-  ./run_once.sh "Read BW" 256k $SIZE rw 100 0 $QD $CONFIG_FILE
-  ./run_once.sh "Write BW" 256k $SIZE rw 0 100 $QD $CONFIG_FILE
-  ./run_once.sh "r50/w50 BW" 256k $SIZE rw 50 50 $QD $CONFIG_FILE
-
+  #./run_once.sh OLTP3 4k $SIZE randrw:2 70 30 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "Random read IOPS" 4k $SIZE randread 100 0 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "Random write IOPS" 4k $SIZE randwrite 0 100 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "Random r50/w50 IOPS" 4k $SIZE randrw 50 50 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "Read BW" 256k $SIZE rw 100 0 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "Write BW" 256k $SIZE rw 0 100 $QD $DATA_PATH $CONFIG_FILE
+  ./run_once.sh "r50/w50 BW" 256k $SIZE rw 50 50 $QD $DATA_PATH $CONFIG_FILE
 done
+
 mv FIO_OUT* $RUNDIR/.
 cd $RUNDIR
 ./tidy.sh
