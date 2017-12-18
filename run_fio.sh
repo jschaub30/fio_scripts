@@ -2,6 +2,8 @@
 
 CWD=$(pwd)
 
+trap "wait && exit" SIGINT SIGTERM
+
 # Gather system snapshot
 [ ! -e linux_summary ] && git clone https://github.com/jschaub30/linux_summary
 cd linux_summary

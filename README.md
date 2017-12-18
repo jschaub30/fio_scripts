@@ -3,28 +3,8 @@ Scripts for testing IO subsystems using the fio utility
 
 SETUP
 =====
-
-To collect the raw data
------------------------
 ```
-apt-get install fio
-```
-
-To generate the output plots
-----------------------------
-```
-sudo apt-get install r-base
-```
-
-Launch R
-```
-sudo R
-```
-In the r-shell, run the following commands
-```
-install.packages('ggplot2')
-install.packages('reshape2')
-install.packages('dplyr')
+./install.sh
 ```
 
 USAGE
@@ -34,7 +14,8 @@ to the target IO location.
 
 Edit the "run_fio.sh" script and un-comment the tests you wish to run.
 
-To run the tests:
+To collect the raw data:
+-----------------------
 ```
 ./run_fio.sh
 ```
