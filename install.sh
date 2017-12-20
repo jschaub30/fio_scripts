@@ -1,18 +1,19 @@
 #!/bin/bash
 
-OS=CENTOS
+trap "wait && exit" SIGINT SIGTERM
 
 which yum
-[ $? -ne 0 ] && OS=UBUNTU
+[ $? -eq 0 ] && OS=CENTOS
+which apt-get
+[ $? -eq 0 ] && OS=UBUNTU
 
-echo $OS detected
 
 echo ==== Installing linux packages ====
 if [ $OS == "CENTOS" ]; then
   sudo yum install epel-release -y
   sudo yum update
   sudo yum install fio dstat sysstat htop -y
-  sudo yum install R
+  sudo yum install R -y
 fi
 if [ $OS == "UBUNTU" ]; then
   echo "deb https://cran.revolutionanalytics.com/bin/linux/ubuntu xenial/" | sudo tee /etc/apt/sources.list.d/r.list

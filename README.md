@@ -14,6 +14,8 @@ Tested in Ubuntu and Centos.
 SETUP
 =====
 ```
+git clone https://github.com/jschaub30/fio_scripts
+cd fio_scripts/
 ./install.sh
 ```
 
